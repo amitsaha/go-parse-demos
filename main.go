@@ -54,6 +54,7 @@ func main() {
 }
 
 // render returns the pretty-print of the given node
+// https://arslan.io/2019/06/13/using-go-analysis-to-write-a-custom-linter/
 func render(fset *token.FileSet, x interface{}) string {
 	var buf bytes.Buffer
 	if err := printer.Fprint(&buf, fset, x); err != nil {
