@@ -10,6 +10,8 @@ import "fmt"
 import "go/printer"
 import "strings"
 
+// Parse a golang file(s), finds fmt.Printf("Hi there\n") and
+// suggests replacing them with fmt.Println("Hi there")
 func main() {
 	var files []*ast.File
 
@@ -40,10 +42,10 @@ func main() {
 				for _, s := range fArgs {
 					// we only care about string arguments ending with "\n"
 					bl, ok := s.(*ast.BasicLit)
-					if ok {										
-						if strings.HasSuffix(bl.Value, `\n"`) && !strings.ContainsAny(bl.Value, "%"){
+					if ok {
+						if strings.HasSuffix(bl.Value, `\n"`) && !strings.ContainsAny(bl.Value, "%") {
 							fmt.Printf("Found: %v: %s\n", fset.Position(n.Pos()), render(fset, n))
-							fmt.Printf("Recommended fix: fmt.Println(%v)\n", strings.TrimSuffix(bl.Value, `\n"`) + `"`)
+							fmt.Printf("Recommended fix: fmt.Println(%v)\n", strings.TrimSuffix(bl.Value, `\n"`)+`"`)
 						}
 					}
 				}
